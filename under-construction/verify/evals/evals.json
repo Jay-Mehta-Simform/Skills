@@ -1,0 +1,88 @@
+{
+  "skill_name": "verify",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I just added a --json flag to the status subcommand (uncommitted). Verify it works.",
+      "should_trigger": true,
+      "expected_output": "A verification report built from running the CLI with and without --json",
+      "assertions": [
+        "Final message contains a '## Verification:' heading and a '**Verdict:**' line with exactly one of PASS, FAIL, BLOCKED, SKIP",
+        "Steps include running the built CLI with 'status --json' and show its captured output",
+        "At least one step is marked 🔍",
+        "No test suite or typecheck command appears in the Steps section"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Verify this branch: 429 responses from the API should now include a Retry-After header.",
+      "should_trigger": true,
+      "expected_output": "Server launched in the background, rate limit triggered, 429 headers captured",
+      "assertions": [
+        "The server is started in the background and polled for readiness before requests are sent",
+        "The report includes a captured 429 response with its headers",
+        "No process is left listening on the server's port after the run"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Verify my last commit. It only updates README.md and files under docs/.",
+      "should_trigger": true,
+      "expected_output": "SKIP verdict: no runtime surface",
+      "assertions": [
+        "'**Verdict:**' is SKIP",
+        "Gives a one-line reason naming the lack of a runtime surface",
+        "No build, test or typecheck command is run"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Can you confirm my PR works? It only changes files under tests/.",
+      "should_trigger": true,
+      "expected_output": "SKIP verdict: tests-only change",
+      "assertions": [
+        "'**Verdict:**' is SKIP",
+        "The test files are not executed"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Verify my change works.",
+      "should_trigger": true,
+      "expected_output": "Run in a directory that is not a git repo: the skill asks what to verify",
+      "assertions": [
+        "Asks the user what change or behaviour to verify",
+        "Does not invent a scope or report a verdict"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Run the unit tests and tell me if they pass.",
+      "should_trigger": false,
+      "expected_output": "The test suite is run normally; the skill does not load",
+      "assertions": [
+        "Does not contain '## Verification:'",
+        "Runs the project's test command"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Review this diff for bugs and style issues.",
+      "should_trigger": false,
+      "expected_output": "A code review from reading the diff; the skill does not load",
+      "assertions": [
+        "Does not contain '## Verification:'",
+        "Does not launch the app"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Create a run skill for this project so agents can launch it.",
+      "should_trigger": false,
+      "expected_output": "Handled by run-skill-generator; verify does not load",
+      "assertions": [
+        "Does not contain '## Verification:'"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "jay-mehta-skills",
+  "owner": {
+    "name": "Jay Mehta"
+  },
+  "metadata": {
+    "description": "Agent Skills built with an eval-first workflow. Only skills in skills/ are published.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "description": "All ready skills from the Jay-Mehta/Skills repository.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/hello-world"
+      ]
+    }
+  ]
+}

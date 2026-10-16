@@ -1,0 +1,65 @@
+{
+  "skill_name": "hello-world",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run the hello-world skill.",
+      "should_trigger": true,
+      "expected_output": "Confirmation message per SKILL.md",
+      "assertions": [
+        "First line is exactly 'hello-world skill loaded ✓'",
+        "Mentions 'Jay-Mehta/Skills'",
+        "Lists SKILL.md, BRIEF.md, STATUS.md, evals/evals.json and evals/results.md",
+        "Fewer than 15 lines and no follow-up question"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Can you check that the Jay-Mehta skills plugin is installed and working?",
+      "should_trigger": true,
+      "expected_output": "Confirmation message per SKILL.md",
+      "assertions": [
+        "First line is exactly 'hello-world skill loaded ✓'",
+        "Mentions 'Jay-Mehta/Skills'"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "hello world skill - are my skills from the skills repo loading?",
+      "should_trigger": true,
+      "expected_output": "Confirmation message per SKILL.md",
+      "assertions": [
+        "First line is exactly 'hello-world skill loaded ✓'",
+        "Lists the per-skill files"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write a hello world program in Rust.",
+      "should_trigger": false,
+      "expected_output": "A normal Rust hello-world program; the skill does not load",
+      "assertions": [
+        "Does not contain 'hello-world skill loaded'",
+        "Contains a Rust main function printing Hello, World"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Hello! How are you today?",
+      "should_trigger": false,
+      "expected_output": "An ordinary greeting; the skill does not load",
+      "assertions": [
+        "Does not contain 'hello-world skill loaded'"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "My pdf skill isn't showing up in Claude Code, why?",
+      "should_trigger": false,
+      "expected_output": "General troubleshooting for skill loading; the hello-world skill does not load",
+      "assertions": [
+        "Does not contain 'hello-world skill loaded'"
+      ]
+    }
+  ]
+}

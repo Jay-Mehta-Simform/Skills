@@ -1,0 +1,89 @@
+{
+  "skill_name": "run-skill-generator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a run skill for this Express API so future agents can start and query it.",
+      "should_trigger": true,
+      "expected_output": "A run-<api-name> skill with a background-launch, readiness-poll and stop recipe",
+      "assertions": [
+        "A file .claude/skills/run-<name>/SKILL.md exists and its frontmatter 'name' equals the directory name",
+        "SKILL.md documents a background launch, a readiness poll and how to stop the server",
+        "Every command block in SKILL.md was executed during the session",
+        "The server was started and queried with curl during the session"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Generate a run skill for the Electron app in apps/desktop.",
+      "should_trigger": true,
+      "expected_output": "A run-desktop skill colocated in apps/desktop with a driver script and a screenshot taken",
+      "assertions": [
+        "apps/desktop/.claude/skills/run-desktop/SKILL.md exists",
+        "A driver script exists in the skill directory and is referenced from SKILL.md",
+        "A screenshot file of the running app was written during the session",
+        "'Run (agent path)' appears before 'Run (human path)' in SKILL.md"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Verify got BLOCKED because nobody knows how to launch the CLI. Write the run skill for it.",
+      "should_trigger": true,
+      "expected_output": "A compact run skill for the CLI with representative invocations",
+      "assertions": [
+        "A run-<name>/SKILL.md exists for the CLI",
+        "SKILL.md shows at least two invocations with their expected output",
+        "The invocations were executed during the session"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Make a run skill for this repo.",
+      "should_trigger": true,
+      "expected_output": "Run at a monorepo root with apps/ and packages/: the skill asks which unit first",
+      "assertions": [
+        "Lists candidate units and asks the user which one",
+        "No .claude/skills/run-* directory is created before the user answers"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Update the run skill, the start command changed to npm run serve.",
+      "should_trigger": true,
+      "expected_output": "Run in a project that already has .claude/skills/run-api/: the existing skill is refined",
+      "assertions": [
+        "The existing .claude/skills/run-api/SKILL.md is edited and keeps name: run-api",
+        "No second run-* skill directory is created",
+        "The new start command was executed during the session"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Start the dev server and show me the homepage.",
+      "should_trigger": false,
+      "expected_output": "The app is run directly; the skill does not load",
+      "assertions": [
+        "No .claude/skills/run-* directory is created or modified"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Write a README section on how to run this project locally.",
+      "should_trigger": false,
+      "expected_output": "README.md is edited; the skill does not load",
+      "assertions": [
+        "No .claude/skills/run-* directory is created",
+        "README.md contains a new section on running the project"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Verify my change to the status command works.",
+      "should_trigger": false,
+      "expected_output": "Handled by verify; run-skill-generator does not load unless verify is BLOCKED",
+      "assertions": [
+        "No .claude/skills/run-* directory is created"
+      ]
+    }
+  ]
+}
